@@ -39,6 +39,8 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     if "district" in df.columns:
         df["district"] = df["district"].apply(normalize_text)
 
+    df = remove_invalid_states(df)
+
     # Clean pincode
     if "pincode" in df.columns:
         df["pincode"] = (
@@ -65,3 +67,8 @@ def add_region_key(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     return df
+
+def remove_invalid_states(df):
+    df = df[df["state"].astype(str).str.isalpha()]
+    return df
+
