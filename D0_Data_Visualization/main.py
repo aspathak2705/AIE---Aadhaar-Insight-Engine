@@ -3,6 +3,7 @@ from src.validate import load_schema, validate_dataframe
 from src.features import create_basic_features
 from src.features import create_ratio_features, create_volume_features
 from src.features import create_monthly_features
+from src.anomaly import create_anomaly_features, get_anomaly_table
 
 def run_pipeline():
     # Paths
@@ -24,7 +25,7 @@ def run_pipeline():
         value_columns=["demo_age_5_17", "demo_age_17_"]
     )
     demo_df = validate_dataframe(demo_df, "demographic", schema)
-    save_dataframe(demo_df, f"{output_path}/demographic_master.csv")
+    #save_dataframe(demo_df, f"{output_path}/demographic_master.csv")
 
     # Biometric
     bio_df = process_dataset(
@@ -32,7 +33,7 @@ def run_pipeline():
         value_columns=["bio_age_5_17", "bio_age_17_"]
     )
     bio_df = validate_dataframe(bio_df, "biometric", schema)
-    save_dataframe(bio_df, f"{output_path}/biometric_master.csv")
+    #save_dataframe(bio_df, f"{output_path}/biometric_master.csv")
 
     final_df = create_basic_features(enrol_df,demo_df,bio_df)
 
@@ -49,6 +50,17 @@ def run_pipeline():
     save_dataframe(
         monthly_df,
         f"{output_path}/time_series/monthly_features.csv"
+    )
+        # Create anomaly features
+    anomaly_df = create_anomaly_features(final_df)
+
+    # Extract clean anomaly table
+    anomaly_table = get_anomaly_table(anomaly_df)
+
+    # Save
+    save_dataframe(
+        anomaly_table,
+        f"{output_path}/features/anomaly_features.csv"
     )
 
 
