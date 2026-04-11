@@ -19,9 +19,13 @@ st.set_page_config(
 # -------------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/processed/features/anomaly_features.csv")
-    monthly_df = pd.read_csv("data/processed/time_series/monthly_features.csv")
-    return df, monthly_df
+    try:
+        df = pd.read_csv("data/processed/features/anomaly_features.csv")
+        monthly_df = pd.read_csv("data/processed/time_series/monthly_features.csv")
+        return df, monthly_df
+    except Exception as e:
+        st.error(f"Error loading data: {e}")
+        raise e
 
 df, monthly_df = load_data()
 
