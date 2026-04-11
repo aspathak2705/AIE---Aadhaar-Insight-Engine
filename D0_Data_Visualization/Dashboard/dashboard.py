@@ -17,14 +17,21 @@ st.set_page_config(
 # -------------------------------
 # LOAD DATA
 # -------------------------------
+import os
+
 @st.cache_data
 def load_data():
     try:
-        df = pd.read_csv("data/processed/features/anomaly_features.csv")
-        monthly_df = pd.read_csv("data/processed/time_series/monthly_features.csv")
+        st.write("Current directory:", os.getcwd())
+
+        df = pd.read_csv("D0_Data_Visualization/data/processed/features/anomaly_features.csv")
+        monthly_df = pd.read_csv("D0_Data_Visualization/data/processed/time_series/monthly_features.csv")
+
+        st.write("Data loaded successfully")
         return df, monthly_df
+
     except Exception as e:
-        st.error(f"Error loading data: {e}")
+        st.error(f"ERROR: {e}")
         raise e
 
 df, monthly_df = load_data()
@@ -110,7 +117,7 @@ elif page == "🗺️ Geo Intelligence":
 
     state_df = df.groupby("state")[metric_option].mean().reset_index()
 
-    with open("Dashboard/india_district.geojson") as f:
+    with open("D0_Data_Visualization/Dashboard/india_district.geojson") as f:
         india_geojson = json.load(f)
 
     for feature in india_geojson["features"]:
