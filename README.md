@@ -132,6 +132,27 @@ Output directory:
 frontend/dist
 ```
 
+For Vercel, the repo already includes:
+
+- `frontend/vercel.json` for SPA route rewrites
+
+Recommended Vercel settings:
+
+- Framework Preset: `Vite`
+- Root Directory: `frontend`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+
+### Render Backend Deployment
+
+The repo includes:
+
+- `render.yaml`
+
+That lets Render create the backend service with the correct start command. After connecting the repo, set:
+
+- `ALLOWED_ORIGINS=https://your-frontend-domain.vercel.app`
+
 ## Notes
 
 - The backend is currently read-only against SQLite, which is fine for a lightweight analytics dashboard.
