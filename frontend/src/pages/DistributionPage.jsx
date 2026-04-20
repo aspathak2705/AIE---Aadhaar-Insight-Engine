@@ -114,34 +114,43 @@ export default function DistributionPage() {
             </div>
 
             <div className="card">
-              <h3 className="title-lg" style={{ marginBottom: '24px' }}>Statistical Quantiles</h3>
+              <h3 className="title-lg" style={{ marginBottom: '12px' }}>Activity Range Summary</h3>
+              <p
+                className="body-md"
+                style={{ marginBottom: '24px', color: 'var(--on-surface-variant)' }}
+              >
+                This summary shows what low, typical, and high activity looks like in
+                the selected area. Here, activity means the level of Aadhaar-related
+                updates or transactions recorded for a region compared with its
+                enrolment volume.
+              </p>
               
               <table className="data-table">
                 <thead>
                   <tr>
-                    <th>QUANTILE</th>
+                    <th>ACTIVITY LEVEL</th>
                     <th>ACTIVITY RATIO</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Minimum (0%)</td>
+                    <td>Lowest observed activity</td>
                     <td>{parseFloat(data.quantiles['0.0'] || 0).toFixed(4)}</td>
                   </tr>
                   <tr>
-                    <td>25th Percentile</td>
+                    <td>Lower-range activity</td>
                     <td>{parseFloat(data.quantiles['0.25'] || 0).toFixed(4)}</td>
                   </tr>
                   <tr>
-                    <td style={{ fontWeight: 600 }}>Median (50%)</td>
+                    <td style={{ fontWeight: 600 }}>Typical activity</td>
                     <td style={{ fontWeight: 600 }}>{parseFloat(data.quantiles['0.5'] || 0).toFixed(4)}</td>
                   </tr>
                   <tr>
-                    <td>75th Percentile</td>
+                    <td>Higher-range activity</td>
                     <td>{parseFloat(data.quantiles['0.75'] || 0).toFixed(4)}</td>
                   </tr>
                   <tr>
-                    <td style={{ color: 'var(--error)', fontWeight: 600 }}>Maximum (100%)</td>
+                    <td style={{ color: 'var(--error)', fontWeight: 600 }}>Highest observed activity</td>
                     <td style={{ color: 'var(--error)', fontWeight: 600 }}>{parseFloat(data.quantiles['1.0'] || 0).toFixed(4)}</td>
                   </tr>
                 </tbody>
