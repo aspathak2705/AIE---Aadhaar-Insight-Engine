@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { api } from '../lib/api';
 
 export default function TemporalAnalysisPage() {
   const [data, setData] = useState([]);
@@ -15,7 +15,7 @@ export default function TemporalAnalysisPage() {
 
   useEffect(() => {
     // Fetch states for dropdown
-    axios.get('http://127.0.0.1:8000/api/states')
+    api.get('/api/states')
       .then(res => setStates(res.data))
       .catch(console.error);
       
@@ -25,7 +25,7 @@ export default function TemporalAnalysisPage() {
 
   const fetchTemporalData = (state = '', district = '') => {
     setLoading(true);
-    let url = 'http://127.0.0.1:8000/api/temporal';
+    let url = '/api/temporal';
     const params = [];
     if (state) params.push(`state=${encodeURIComponent(state)}`);
     if (district) params.push(`district=${encodeURIComponent(district)}`);
@@ -34,7 +34,7 @@ export default function TemporalAnalysisPage() {
       url += '?' + params.join('&');
     }
       
-    axios.get(url)
+    api.get(url)
       .then(res => {
         setData(res.data);
         setLoading(false);
@@ -49,7 +49,7 @@ export default function TemporalAnalysisPage() {
     fetchTemporalData(s, '');
     
     if (s) {
-      axios.get(`http://127.0.0.1:8000/api/districts?state=${encodeURIComponent(s)}`)
+      api.get(`/api/districts?state=${encodeURIComponent(s)}`)
         .then(res => setDistricts(res.data))
         .catch(console.error);
     } else {

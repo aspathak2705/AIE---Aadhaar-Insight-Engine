@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { api } from '../lib/api';
 
 export default function DistributionPage() {
   const [data, setData] = useState({ histogram: [], quantiles: {}, district_breakdown: [] });
@@ -14,7 +14,7 @@ export default function DistributionPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/states')
+    api.get('/api/states')
       .then(res => setStates(res.data))
       .catch(console.error);
       
@@ -23,7 +23,7 @@ export default function DistributionPage() {
 
   const fetchDistributionData = (state = '', district = '') => {
     setLoading(true);
-    let url = 'http://127.0.0.1:8000/api/distribution';
+    let url = '/api/distribution';
     const params = [];
     if (state) params.push(`state=${encodeURIComponent(state)}`);
     if (district) params.push(`district=${encodeURIComponent(district)}`);
@@ -32,7 +32,7 @@ export default function DistributionPage() {
       url += '?' + params.join('&');
     }
       
-    axios.get(url)
+    api.get(url)
       .then(res => {
         setData(res.data);
         setLoading(false);
@@ -47,7 +47,7 @@ export default function DistributionPage() {
     fetchDistributionData(s, '');
     
     if (s) {
-      axios.get(`http://127.0.0.1:8000/api/districts?state=${encodeURIComponent(s)}`)
+      api.get(`/api/districts?state=${encodeURIComponent(s)}`)
         .then(res => setDistricts(res.data))
         .catch(console.error);
     } else {

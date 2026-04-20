@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { AlertTriangle, Activity, MapPin } from 'lucide-react';
+import { api } from '../lib/api';
 
 export default function OverviewPage() {
   const [data, setData] = useState({ stats: null, top_regions: [] });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/overview')
+    api.get('/api/overview')
       .then(res => {
         setData(res.data);
         setLoading(false);

@@ -4,24 +4,46 @@ import sqlite3
 import pandas as pd
 import uvicorn
 import os
+from pathlib import Path
 
-app = FastAPI()
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "data" / "aadhaar.db"
+
+
+def get_allowed_origins():
+    raw_origins = os.getenv("ALLOWED_ORIGINS", "")
+    origins = [origin.strip() for origin in raw_origins.split(",") if origin.strip()]
+    if origins:
+        return origins
+
+    return [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]
+
+
+app = FastAPI(title="AIE Backend")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Relative to where we run uvicorn
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "aadhaar.db")
-
 def get_db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+@app.get("/api/health")
+def get_health():
+    return {
+        "status": "ok",
+        "database": DB_PATH.exists(),
+    }
 
 @app.get("/api/overview")
 def get_overview(state: str = "All"):
@@ -186,4 +208,9 @@ def get_investigation(state: str, district: str = None):
     }
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(
+        "backend.main:app",
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", "8000")),
+        reload=os.getenv("ENV", "development") == "development",
+    )

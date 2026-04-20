@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import axios from 'axios';
 import Plotly from 'plotly.js-dist-min';
 import createPlotlyComponent from 'react-plotly.js/factory';
+import { api } from '../lib/api';
 
 const plotFactory = createPlotlyComponent.default || createPlotlyComponent;
 const Plot = plotFactory(Plotly);
@@ -105,8 +105,8 @@ export default function GeoIntelligencePage() {
       params.set('state', selectedState);
     }
 
-    axios
-      .get(`http://127.0.0.1:8000/api/geo?${params.toString()}`)
+    api
+      .get(`/api/geo?${params.toString()}`)
       .then((res) => {
         setData(res.data);
         setLoading(false);

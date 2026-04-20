@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Search } from 'lucide-react';
+import { api } from '../lib/api';
 
 export default function InvestigationPage() {
   const [states, setStates] = useState([]);
@@ -13,7 +13,7 @@ export default function InvestigationPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/states')
+    api.get('/api/states')
       .then(res => {
         setStates(res.data);
       })
@@ -27,7 +27,7 @@ export default function InvestigationPage() {
     setResults([]);
     
     if (s) {
-      axios.get(`http://127.0.0.1:8000/api/investigation?state=${s}`)
+      api.get(`/api/investigation?state=${encodeURIComponent(s)}`)
         .then(res => setDistricts(res.data.districts))
         .catch(console.error);
     } else {
@@ -41,7 +41,7 @@ export default function InvestigationPage() {
     
     if (selectedState && d) {
       setLoading(true);
-      axios.get(`http://127.0.0.1:8000/api/investigation?state=${selectedState}&district=${d}`)
+      api.get(`/api/investigation?state=${encodeURIComponent(selectedState)}&district=${encodeURIComponent(d)}`)
         .then(res => {
           setResults(res.data.pincodes);
           setLoading(false);
