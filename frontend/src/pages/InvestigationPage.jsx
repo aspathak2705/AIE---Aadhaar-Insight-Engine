@@ -75,6 +75,22 @@ export default function InvestigationPage() {
         </div>
       </div>
 
+      <div
+        className="body-md"
+        style={{
+          marginBottom: '24px',
+          padding: '14px 16px',
+          borderRadius: '8px',
+          backgroundColor: 'var(--surface-container-low)',
+          color: 'var(--on-surface-variant)',
+        }}
+      >
+        <strong style={{ color: 'var(--on-surface)' }}>Note:</strong> The{' '}
+        <strong style={{ color: 'var(--on-surface)' }}>Flag</strong> action marks a
+        pincode as suspicious and worth deeper follow-up investigation. The
+        magnifying-glass icon represents review or inspection.
+      </div>
+
       {loading && <div className="body-md">Investigating...</div>}
       
       {!loading && results.length > 0 && (
