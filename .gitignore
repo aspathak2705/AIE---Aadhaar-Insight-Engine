@@ -26,5 +26,3 @@ dist-ssr
 *.sln
 *.sw?
 __pycache__
-india_districts_datameet.geojson
-india_states_datameet.geojson
