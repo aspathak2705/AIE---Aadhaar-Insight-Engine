@@ -54,14 +54,29 @@ def get_states():
     return df['state'].tolist()
 
 @app.get("/api/geo")
-def get_geo(metric: str = "anomaly_score"):
+def get_geo(metric: str = "anomaly_score", state: str = "All"):
     if metric not in ["anomaly_score", "activity_ratio"]:
         metric = "anomaly_score"
     conn = get_db()
-    query = f"SELECT state, AVG({metric}) as value FROM regional_features GROUP BY state"
-    df = pd.read_sql(query, conn)
+
+    if state != "All":
+        query = f"""
+            SELECT state, district, AVG({metric}) as value
+            FROM regional_features
+            WHERE state = ?
+            GROUP BY state, district
+        """
+        df = pd.read_sql(query, conn, params=(state,))
+        if not df.empty:
+            df["state"] = df["state"].str.lower().str.strip()
+            df["district"] = df["district"].str.lower().str.strip()
+    else:
+        query = f"SELECT state, AVG({metric}) as value FROM regional_features GROUP BY state"
+        df = pd.read_sql(query, conn)
+        if not df.empty:
+            df["state"] = df["state"].str.lower().str.strip()
+
     conn.close()
-    df['state'] = df['state'].str.lower().str.strip()
     return df.to_dict(orient="records")
 
 @app.get("/api/regions")
