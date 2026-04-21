@@ -65,13 +65,12 @@ export default function TemporalAnalysisPage() {
 
   return (
     <div className="card">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div className="page-toolbar" style={{ marginBottom: '32px' }}>
         <h3 className="headline-md">Temporal Analysis</h3>
         
-        <div style={{ display: 'flex', gap: '16px' }}>
+        <div className="page-controls">
           <select 
-            className="input-field" 
-            style={{ width: '200px' }} 
+            className="input-field responsive-select"
             value={selectedState}
             onChange={handleStateChange}
           >
@@ -80,8 +79,7 @@ export default function TemporalAnalysisPage() {
           </select>
           
           <select 
-            className="input-field" 
-            style={{ width: '200px' }} 
+            className="input-field responsive-select"
             value={selectedDistrict}
             onChange={handleDistrictChange}
             disabled={!selectedState}
@@ -95,7 +93,8 @@ export default function TemporalAnalysisPage() {
       {loading ? (
         <div className="body-md">Analyzing chronological patterns...</div>
       ) : (
-        <div style={{ width: '100%', height: 500 }}>
+        <div className="chart-frame chart-frame-lg chart-scroll-x">
+          <div className="chart-min-width" style={{ width: '100%', height: '100%' }}>
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--outline-grid)" vertical={false} />
@@ -124,6 +123,7 @@ export default function TemporalAnalysisPage() {
               />
             </ComposedChart>
           </ResponsiveContainer>
+          </div>
         </div>
       )}
     </div>

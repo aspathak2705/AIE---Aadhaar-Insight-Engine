@@ -52,8 +52,8 @@ export default function InvestigationPage() {
 
   return (
     <div className="card">
-      <div style={{ display: 'flex', gap: '24px', marginBottom: '32px' }}>
-        <div style={{ flex: 1 }}>
+      <div className="filter-row">
+        <div className="filter-field">
           <label className="label-sm" style={{ color: 'var(--on-surface-variant)' }}>STATE FILTER</label>
           <select className="input-field" value={selectedState} onChange={handleStateChange}>
             <option value="">Select State...</option>
@@ -61,7 +61,7 @@ export default function InvestigationPage() {
           </select>
         </div>
         
-        <div style={{ flex: 1 }}>
+        <div className="filter-field">
           <label className="label-sm" style={{ color: 'var(--on-surface-variant)' }}>DISTRICT FILTER</label>
           <select 
             className="input-field" 
@@ -75,16 +75,7 @@ export default function InvestigationPage() {
         </div>
       </div>
 
-      <div
-        className="body-md"
-        style={{
-          marginBottom: '24px',
-          padding: '14px 16px',
-          borderRadius: '8px',
-          backgroundColor: 'var(--surface-container-low)',
-          color: 'var(--on-surface-variant)',
-        }}
-      >
+      <div className="body-md mobile-note">
         <strong style={{ color: 'var(--on-surface)' }}>Note:</strong> The{' '}
         <strong style={{ color: 'var(--on-surface)' }}>Flag</strong> action marks a
         pincode as suspicious and worth deeper follow-up investigation. The

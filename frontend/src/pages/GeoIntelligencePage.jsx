@@ -200,7 +200,7 @@ export default function GeoIntelligencePage() {
 
   return (
     <div className="card">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+      <div className="page-toolbar" style={{ marginBottom: '20px' }}>
         <div>
           <h3 className="headline-md">
             {selectedState ? `${formatLabel(selectedState)} District Risk Map` : 'Geospatial Risk Topography'}
@@ -210,15 +210,14 @@ export default function GeoIntelligencePage() {
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+        <div className="page-controls">
           {selectedState && (
             <button className="btn-primary" type="button" onClick={() => setSelectedState(null)}>
               Back to India Map
             </button>
           )}
           <select
-            className="input-field"
-            style={{ width: '250px' }}
+            className="input-field responsive-select"
             value={metricOption}
             onChange={(e) => setMetricOption(e.target.value)}
           >
@@ -228,23 +227,14 @@ export default function GeoIntelligencePage() {
         </div>
       </div>
 
-      <div
-        className="body-md"
-        style={{
-          marginBottom: '24px',
-          padding: '14px 16px',
-          borderRadius: '8px',
-          backgroundColor: 'var(--surface-container-low)',
-          color: 'var(--on-surface-variant)',
-        }}
-      >
+      <div className="body-md mobile-note">
         <strong style={{ color: 'var(--on-surface)' }}>{mapConfig.subtitle}:</strong>{' '}
         {selectedState
           ? 'Each district is shaded using the selected metric for that district within this state.'
           : 'Each state is shaded using the selected metric averaged across that state. Click any state to inspect its districts.'}
       </div>
 
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <div className="chart-frame chart-frame-map">
         <Plot
           key={selectedState ? `district-${selectedState}-${metricOption}` : `india-${metricOption}`}
           data={[
@@ -265,6 +255,7 @@ export default function GeoIntelligencePage() {
             },
           ]}
           layout={{
+            autosize: true,
             geo: {
               fitbounds: 'locations',
               visible: false,
@@ -274,13 +265,13 @@ export default function GeoIntelligencePage() {
                 type: 'mercator',
               },
             },
-            width: 1000,
-            height: 650,
             margin: { t: 0, b: 0, l: 0, r: 0 },
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
           }}
           config={{ responsive: true }}
+          style={{ width: '100%', height: '100%' }}
+          useResizeHandler
           onClick={handlePlotClick}
         />
       </div>

@@ -63,12 +63,11 @@ export default function DistributionPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      <div className="card" style={{ padding: '24px', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="card mobile-stack-card" style={{ padding: '24px' }}>
         <h3 className="headline-md" style={{ margin: 0 }}>Distribution Filters</h3>
-        <div style={{ display: 'flex', gap: '16px' }}>
+        <div className="page-controls">
           <select 
-            className="input-field" 
-            style={{ width: '200px' }} 
+            className="input-field responsive-select"
             value={selectedState}
             onChange={handleStateChange}
           >
@@ -77,8 +76,7 @@ export default function DistributionPage() {
           </select>
           
           <select 
-            className="input-field" 
-            style={{ width: '200px' }} 
+            className="input-field responsive-select"
             value={selectedDistrict}
             onChange={handleDistrictChange}
             disabled={!selectedState}
@@ -96,7 +94,8 @@ export default function DistributionPage() {
           <div className="grid-2">
             <div className="card">
               <h3 className="title-lg" style={{ marginBottom: '24px' }}>Activity Ratio Distribution</h3>
-              <div style={{ width: '100%', height: 400 }}>
+              <div className="chart-frame chart-frame-md chart-scroll-x">
+                <div className="chart-min-width" style={{ width: '100%', height: '100%' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={data.histogram}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--outline-grid)" vertical={false} />
@@ -110,6 +109,7 @@ export default function DistributionPage() {
                     <Bar dataKey="count" fill="var(--primary)" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
+                </div>
               </div>
             </div>
 
@@ -161,7 +161,8 @@ export default function DistributionPage() {
           {selectedState && !selectedDistrict && data.district_breakdown && data.district_breakdown.length > 0 && (
             <div className="card" style={{ minHeight: '500px' }}>
               <h3 className="title-lg" style={{ marginBottom: '24px' }}>District Distribution Breakdown</h3>
-              <div style={{ width: '100%', height: Math.max(400, data.district_breakdown.length * 30) }}>
+              <div className="chart-frame chart-scroll-x" style={{ height: Math.max(340, data.district_breakdown.length * 30) }}>
+                <div className="chart-min-width" style={{ width: '100%', height: '100%' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={data.district_breakdown} layout="vertical" margin={{ left: 100, right: 20 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--outline-grid)" horizontal={false} />
@@ -176,6 +177,7 @@ export default function DistributionPage() {
                     <Bar dataKey="activity_ratio" name="Avg Activity" fill="var(--primary-container)" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
+                </div>
               </div>
             </div>
           )}

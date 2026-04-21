@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Map as MapIcon, TrendingUp, BarChart2, Search, ShieldAlert, CheckCircle } from 'lucide-react';
 import OverviewPage from './pages/OverviewPage';
@@ -46,7 +46,7 @@ function Sidebar() {
         </ul>
       </div>
 
-      <div style={{ marginTop: 'auto', padding: '16px', background: 'var(--surface-container-low)', borderRadius: '8px' }}>
+      <div className="sidebar-status">
         <p className="label-sm" style={{ color: 'var(--on-surface-variant)', marginBottom: '4px' }}>SYSTEM STATUS</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="status-indicator status-normal"></span>
@@ -75,7 +75,7 @@ function TopHeader() {
       <div>
         <h2 className="headline-lg">{getTitle()}</h2>
       </div>
-      <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+      <div className="header-actions">
         <span className="chip"><CheckCircle size={16} color="var(--primary)" style={{marginRight: 6}}/> Verified</span>
       </div>
     </header>
